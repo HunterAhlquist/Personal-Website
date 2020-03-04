@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'c64';
+    src: url('c64-webfont.woff2') format('woff2'),
+         url('c64-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'c64';
+}
