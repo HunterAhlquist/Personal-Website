@@ -1,3 +1,10 @@
+/*
+©Hunter Ahlquist, 2020
+
+test.js
+Tests the sprite library on top a neat background.
+*/
+
 var app;
 function test() {
     //console.log("start");

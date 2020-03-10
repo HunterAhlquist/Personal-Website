@@ -1,35 +1,35 @@
-document.addEventListener("keydown", typeKey);
-const screen = document.getElementById("screen");
-const rasterizer = screen.getContext("2d");
+/*
+©Hunter Ahlquist, 2020
 
+smilesystem.js
+Main logic for the Smile64 console.
+*/
+
+//prevent the backspace key from going to the prev page in the browser's history
 function preventBackspaceHandler(evt) {
     evt = evt || window.event;
     if (evt.keyCode == 8) {
         return false;
     }
 }
-
 document.onkeydown = preventBackspaceHandler;
 
+//system uptime
 var runtimeLength = 0;
-var rasterizeData = [[], []]; //2d array for the xy of the screen
-var spriteStack = [];
-rasterizeData.length = 60;
-for (y=0;y<60;y++){
-    rasterizeData[y] = new Array();
-    for (x=0;x<60;x++) {
-        rasterizeData[y][x] = new pixel();
-    }
-}
 
+//console variables
 var consoleCurLine = "";
+var prevCommands = [];
+var prevCmdIndex = 0;
 var consoleHistory = [];
 
+//the currently running app
 var activeApp;
 
+//input handeling
+document.addEventListener("keydown", typeKey);
 function typeKey(e) {
-    
-    if (activeApp == null || activeApp == undefined) {
+    if (activeApp == null || activeApp == undefined) { //console
         if (e.key.length == 1) {
             consoleCurLine += e.key;
         } else {
@@ -38,40 +38,47 @@ function typeKey(e) {
                     consoleCurLine = consoleCurLine.substr(0, consoleCurLine.length - 1);
                 break;
                 case "Enter":
+                    if (consoleCurLine == "")
+                        return;
                     consoleHistory.push("$" + consoleCurLine);
+                    prevCommands.push(consoleCurLine);
+                    prevCmdIndex = prevCommands.length;
                     parse(consoleCurLine);
+                    consoleCurLine = "";
+                break;
+                case "ArrowUp": 
+                    prevCmdIndex--;
+                    if (prevCommands.length < 0)
+                        return;
+                    if (prevCmdIndex < 0)
+                        return
+                    
+                    consoleCurLine = prevCommands[prevCmdIndex];
+                break;
+                case "ArrowDown":
+                    if (prevCommands.length < 0)
+                        return;
+                    prevCmdIndex = prevCommands.length;
                     consoleCurLine = "";
                 break;
             }
         }
-    } else {
-        if (e.key == "Escape"){
+    } else { //microapp
+        if (e.key == "Home"){ //terminates microapp
             activeApp.end();
             activeApp = null;
             return;
         }
 
-        activeApp.input = e.key;
+        activeApp.input = e; //passes input to the active microapp
     }
-    e.preventDefault();
+    e.preventDefault(); //cancels input if all else fails...
 }
 
-function drawPixels() {
-    //console.log("test");
-    rasterizer.clearRect(0, 0, screen.width, screen.height);
- for (y=0;y<60;y++) {
-    for (x=0;x<60;x++){
-        drawPixel(x, y);
-    }
- }
-}
 
-function drawPixel(x, y) {
-    rasterizer.fillStyle = rasterizeData[y][x].color;
-    rasterizer.fillRect(x * 10, y * 10, 10, 10);
-}
 
 //pixel shaders
+//generates colored pixel noise
 function randomColorsShader() {
     for (y=0;y<60;y++) {
         for (x=0;x<60;x++){
@@ -82,6 +89,8 @@ function randomColorsShader() {
         }
      }
 }
+
+//adds a blue c64 like console border to the screen
 function lightBlueBorderShader() {
     for (y=0;y<60;y++) {
         for (x=0;x<60;x++){
@@ -92,6 +101,7 @@ function lightBlueBorderShader() {
      }
 }
 
+//simulates and rasterizes colored rotating static 
 function mysteryColorShader() {
     for (y=0;y<60;y++) {
         for (x=0;x<60;x++){
@@ -104,50 +114,39 @@ function mysteryColorShader() {
      }
 }
 
+//background for the console
 function consoleBGShaderStack() {
     randomColorsShader();
     mysteryColorShader();
     lightBlueBorderShader();
     
 }
-
-function drawSprite(sprite, orginX, orginY) {
-    if (sprite == undefined)
-        return;
-
-    for (y=orginY;y<orginY + sprite.h;y++) {
-        let curY = y;
-        if (curY > 59 || curY < 0)
-                continue;
-        for (x=orginX;x<orginX + sprite.w;x++){
-            let curX = x;
-            if (curX > 59 || curX < 0)
-                continue;
-
-            let col = sprite.colorData[y - orginY][x - orginX].color;
-            if (col == sprite.alphaKey)
-                continue;
-            rasterizeData[curY][curX].color = col;
-        }
-    }
-}
-
-function loadNewSprite(imgURL, a) {
-    img = document.createElement('img');
-    img.src = imgURL;
-    document.querySelector('canvas').appendChild(img);
-    img.addEventListener("load", function(){
-        //console.log("sprite loaded");
-        spriteStack.push(new sprite(img, a));
-    })
-    
-}
-
+//runs every 50ms
+let cycleA = new Date();
+let avgCycle = [];
+let newAvg;
 function update() {
-    runtimeLength++;
+    cycleA = new Date();
+    if (runtimeLength == Number.MAX_SAFE_INTEGER)
+        runtimeLength = 0;
+    else
+        runtimeLength++;
     appRefresh();
+    cycleB = new Date();
+    dif = cycleB - cycleA;
+    avgCycle.unshift(dif);
+    if (avgCycle.length > 100)
+        avgCycle.pop();
+    
+    newAvg = 0;
+    for (i of avgCycle){
+        newAvg += i;
+    }
+    newAvg /= avgCycle.length;
+    //console.log(Math.round(newAvg));
 }
 
+//refreshes the console view
 function consoleUpdate() {
     consoleBGShaderStack();
     for (i=0;i<spriteStack.length;i++){
@@ -158,6 +157,7 @@ function consoleUpdate() {
 
 }
 
+//refreshes the active microapp
 function appRefresh() {
     if (activeApp == null || activeApp == undefined){
         consoleUpdate();
@@ -167,14 +167,15 @@ function appRefresh() {
 
 }
 
+//updates console text
 function drawText() {
     rasterizer.font = "10px c64";
     rasterizer.fillStyle = getRgba(5 * Math.floor(Math.random() * 15), 255, 200 - Math.floor(75 * Math.sin(runtimeLength / 10)));
-    rasterizer.fillText("hunterx@" + navigator.userAgent.split(';')[0].replace("(", ""), 1 * 10, 2 * 10);
+    rasterizer.fillText("hunterx@" + "Hunter-Smile64", 1 * 10, 2 * 10);
     rasterizer.font = "20px c64";
     rasterizer.fillStyle = "yellow";
     //console input line
-    rasterizer.fillText("~$" + consoleCurLine + cursorTick(), 4 * 10, 56 * 10);
+    rasterizer.fillText("~$ " + consoleCurLine + cursorTick(), 4 * 10, 56 * 10);
 
     if (consoleHistory.length > 7 * 2){
         consoleHistory.shift();
@@ -201,6 +202,7 @@ function drawText() {
     }
 }
 
+//returns the where the blinking is in time
 function cursorTick() {
     if (Math.abs(Math.sin(runtimeLength / 7)) > 0.7)
         return "_";
@@ -208,7 +210,5 @@ function cursorTick() {
         return "";
 }
 
-
-
+//begin the update loop
 const runtime = setInterval(update, 50);
-//const sdsdads = setInterval(drawSprite(spriteStack[0], 20, 20), 500);

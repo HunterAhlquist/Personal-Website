@@ -1,6 +1,30 @@
+/*
+©Hunter Ahlquist, 2020
+
+bin.js
+Contains all the basic features for Smile64.
+*/
+
 function parse(command){
     let cmd = command.split(' ');
     switch (cmd[0]){
+        case "ext":
+            consoleHistory.push("Active System Extensions");
+            consoleHistory.push("=-=-=-=-=-=-=-=-=-=-=-=-=-");
+            consoleHistory.push("'Sprites'");
+            consoleHistory.push("!  >Image decoding and");
+            consoleHistory.push("!   rasterization.");
+            consoleHistory.push("#  (c)Smile Systems, Inc.");
+            consoleHistory.push("'Audio'");
+            consoleHistory.push("!  >Sound wave processing.");
+            consoleHistory.push("#  (c)Smile Systems, Inc.");
+            consoleHistory.push("'UI'");
+            consoleHistory.push("!  >User interface library.");
+            consoleHistory.push("#  (c)Smile Systems, Inc.");
+            break;
+        case "clear":
+            consoleHistory = [];
+            break;
         case "exec":
             exec(cmd[1]);
             break;
@@ -15,7 +39,8 @@ function parse(command){
             break;
         case "help":
             consoleHistory.push("exec, contact, games,");
-            consoleHistory.push("whoami, ping, about");
+            consoleHistory.push("whoami, ping, about,");
+            consoleHistory.push("clear");
             break;
         case "whoami":
             consoleHistory.push("Hunter Ahlquist");
@@ -26,9 +51,12 @@ function parse(command){
             consoleHistory.push("!Artist;");
             break;
         case "about":
-            consoleHistory.push("Smile64 - v0.1");
-            consoleHistory.push("RAM: 16kb, VRAM:10.8kb");
-            consoleHistory.push("CPU: Happy1 (20 Hz)");
+            consoleHistory.push("SmileOS - v1.0");
+            consoleHistory.push("RAM: 32kb, VRAM: 12kb");
+            consoleHistory.push("CPU: H001 @ 0.875 MHz");
+            consoleHistory.push("");
+            consoleHistory.push("#(c) Smile Systems, Inc.");
+            consoleHistory.push("#1983.");
             break;
             case "games":
 
@@ -38,9 +66,9 @@ function parse(command){
                     consoleHistory.push("Fractured Mind, ID:00");
                     consoleHistory.push("Surveillance State, ID:01");
                     consoleHistory.push("");
-                    consoleHistory.push("#Type 'games' followed");
-                    consoleHistory.push("#by its game ID to");
-                    consoleHistory.push("#get more information.");
+                    consoleHistory.push("!Type 'games' followed");
+                    consoleHistory.push("!by its game ID to");
+                    consoleHistory.push("!get more information.");
                 }
                 
             break;
@@ -63,7 +91,7 @@ function exec(parse) {
         consoleHistory.push("#Use 'exec ls' to");
         consoleHistory.push("#see available microapps.");
     } else if (parse == "ls") {
-        consoleHistory.push("test, acid");
+        consoleHistory.push("test, acid, pong");
     } else {
         switch (parse) {
             case "test":
@@ -71,6 +99,9 @@ function exec(parse) {
                 break;
             case "acid":
                 activeApp = new acid();
+                break;
+            case "pong":
+                activeApp = new pong();
                 break;
         }
     }
