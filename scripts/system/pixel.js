@@ -82,14 +82,16 @@ function pixel(color) {
         this.color = setColor(10, 5, 255);
 }
 
-function setColor(r, g, b) {
+function setColor(r, g, b, a) {
     if (r == NaN)
         return "rgba(0, 0, 0, 0)";
     if (g == NaN)
         return "rgba(0, 0, 0, 0)";
     if (b == NaN)
         return "rgba(0, 0, 0, 0)";
-    return "rgba(" + r + ", " + g + ", " + b + ", 1)";
+    if (a == undefined)
+        a = 1;
+        return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
 }
 
 function getColor(rgba) {
@@ -98,14 +100,16 @@ function getColor(rgba) {
     return cut;
 
 }
-function getRgba(r, g, b) {
+function getRgba(r, g, b, a) {
     if (r == NaN)
         return "rgba(0, 0, 0, 0)";
     if (g == NaN)
         return "rgba(0, 0, 0, 0)";
     if (b == NaN)
         return "rgba(0, 0, 0, 0)";
-    return "rgba(" + r + ", " + g + ", " + b + ", 1)";
+    if (a == undefined)
+        a = 1;
+    return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
 }
 
 function drawPixels() {
@@ -120,5 +124,7 @@ function drawPixels() {
 
 function drawPixel(x, y) {
     rasterizer.fillStyle = rasterizeData[y][x].color;
+    if (getColor(rasterizeData[y][x].color)[3] == 0)
+        return;
     rasterizer.fillRect(x * 10, y * 10, 10, 10);
 }

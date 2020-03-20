@@ -37,7 +37,8 @@ function sprite(img, alpha) {
             let r = color[0];
             let g = color[1];
             let b = color[2];
-            imgColor[y][x] = new pixel(getRgba(r, g, b));
+            let a = color[3];
+            imgColor[y][x] = new pixel(getRgba(r, g, b, a));
         }
     }
     this.colorData = imgColor;
@@ -48,12 +49,11 @@ function loadNewSprite(imgURL, a) {
     img = document.createElement('img');
     img.src = imgURL;
     loadSpriteStack.push(img);
-    //document.querySelector('canvas').appendChild(img);
     let afterLoad = function(){
         let spr = loadSpriteStack.pop();
         spriteStack.push(new sprite(spr, a));
     };
-    img.addEventListener("load", afterLoad)
+    img.addEventListener("load", afterLoad);
 }
 
 function drawSprite(sprite, orginX, orginY) {
@@ -72,6 +72,9 @@ function drawSprite(sprite, orginX, orginY) {
             let col = sprite.colorData[y - orginY][x - orginX].color;
             if (col == sprite.alphaKey)
                 continue;
+            if (getColor(col)[3] == 0)
+                continue;
+                
             rasterizeData[curY][curX].color = col;
         }
     }
