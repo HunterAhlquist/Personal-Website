@@ -7,7 +7,7 @@ Desc
 
 var app;
 function ss() {
-    loadNewSprite("scripts/microapp/SS/sam.png", getRgba(106, 190, 48));
+    loadNewSprite("scripts/microapp/SS/sam.png", getRgba(0, 211, 56));
 
     function update() {
         coolBGShader();

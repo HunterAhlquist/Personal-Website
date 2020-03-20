@@ -7,7 +7,7 @@ Desc
 
 var app;
 function fm() {
-    loadNewSprite("scripts/microapp/FM/brain.png", getRgba(106, 190, 48));
+    loadNewSprite("scripts/microapp/FM/brain.png", getRgba(0, 211, 56));
 
     function update() {
         coolBGShader();
