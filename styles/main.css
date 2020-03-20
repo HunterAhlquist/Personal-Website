@@ -7,28 +7,72 @@
 }
 
 html, body {
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: bolder;
-    text-align: center;
     background-color: black;
     color: white;
     width:  100%;
     height: 100%;
     margin: 0;
 }
+body {
+    display: flex;
+    overflow: hidden;
+}
 
 canvas {
     border: solid white 4px;
     border-radius: 25px;
 }
+
+.console {
+    position: relative;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    text-align: center;
+    
+    width: 100%;
+}
+.info {
+    position: relative;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    text-align: left;
+    color: black;
+    margin: 5em 5em 15em 5em;
+    display: flex;
+    border: solid white 2px;
+    padding: 1em;
+    border-radius: 15px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 canvas.fullscreen {
     border: none;
     border-radius: 0px;
 }
 
-p.fullscreen {
-    display: none;
+.infoBtn {
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    margin-top: 2em;
+    background-image: url('img/info.png');
 }
-h1.fullscreen {
-    display: none;
+.infoBtn:hover {
+    background-image: url('img/info-h.png');
+    cursor: pointer;
+}
+
+.screen {
+    display: flex;
+    margin-left: calc(50% - 300px);
+}
+p {
+    width: 90%;
+    padding-left: 2em;
+    
+}
+h2 {
+    color: gray;
+    padding-left: 0.5em;
 }

@@ -9,6 +9,8 @@ const rasterizer = screen.getContext("2d");
 
 var color;
 var rasterizeData = [[], []]; //2d array for the xy of the screen
+var isInFullScreen = false;
+var fullscreenStyled = false;
 rasterizeData.length = screen.height / 10;
 for (y=0;y<60;y++){
     rasterizeData[y] = [];
@@ -18,26 +20,33 @@ for (y=0;y<60;y++){
     }
 }
 
-document.addEventListener("keydown", fscreenEvent);
-function fscreenEvent(e) {
-    if (e.key == "F11")  {
-        fullscreen();
+screen.addEventListener("dblclick", fullscreen);
+
+function fullscreneStyle() {
+    if (!isInFullScreen) {
+        if (fullscreenStyled){
+            let canvasEl = document.getElementById("screen");
+            canvasEl.className = "";
+            fullscreenStyled = false;
+        }
+    } else {
+            if (!fullscreenStyled){
+                let canvasEl = document.getElementById("screen");
+                canvasEl.className = "fullscreen";
+                fullscreenStyled = true;
+            }
+        }
     }
+
+function checkFullscreen() {
+    return (document.fullscreenElement && document.fullscreenElement !== null) ||
+    (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+    (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+    (document.msFullscreenElement && document.msFullscreenElement !== null);
 }
 
 function fullscreen() {
-    let all = document.body.getElementsByTagName("*");
-    let noscripts = [];
-    for (el of all){
-        //console.log(el.tagName);
-        if (el.tagName == "SCRIPT")
-            continue;
-        noscripts.push(el);
-    }
-    var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
-        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
-        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
-        (document.msFullscreenElement && document.msFullscreenElement !== null);
+    isInFullScreen = checkFullscreen();
 
     if (!isInFullScreen) {
         if (screen.requestFullscreen) {
@@ -49,9 +58,7 @@ function fullscreen() {
         } else if (docElm.msRequestFullscreen) {
             screen.msRequestFullscreen();
         }
-        for (el of noscripts){
-            el.className = "fullscreen";
-        }
+        
         isInFullScreen = true;
     } else {
         if (document.exitFullscreen) {
@@ -63,9 +70,7 @@ function fullscreen() {
         } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
         }
-        for (el of noscripts){
-            el.className = "";
-        }
+        
         isInFullScreen = false;
     }
 }
@@ -78,6 +83,12 @@ function pixel(color) {
 }
 
 function setColor(r, g, b) {
+    if (r == NaN)
+        return "rgba(0, 0, 0, 0)";
+    if (g == NaN)
+        return "rgba(0, 0, 0, 0)";
+    if (b == NaN)
+        return "rgba(0, 0, 0, 0)";
     return "rgba(" + r + ", " + g + ", " + b + ", 1)";
 }
 
@@ -88,6 +99,12 @@ function getColor(rgba) {
 
 }
 function getRgba(r, g, b) {
+    if (r == NaN)
+        return "rgba(0, 0, 0, 0)";
+    if (g == NaN)
+        return "rgba(0, 0, 0, 0)";
+    if (b == NaN)
+        return "rgba(0, 0, 0, 0)";
     return "rgba(" + r + ", " + g + ", " + b + ", 1)";
 }
 

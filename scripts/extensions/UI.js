@@ -4,7 +4,7 @@
 UI.js
 Contains user interface drawing functions for making microapps easier to develop.
 */
-windowStack
+//windowStack
 
 //object functions
 
@@ -26,6 +26,14 @@ function drawBox(locX, locY, w, h, color, fill){
             }
         }
     }
+}
+
+function drawString(text, rgba, x, y, size){ //this function is to be used AFTER a regular pixel draw call
+    if (size == undefined)
+        size = '20px';
+    rasterizer.font = size + " c64";
+    rasterizer.fillStyle = rgba;
+    rasterizer.fillText(text, x * 10, y * 10);
 }
 
 function newTabWindow(x, y, tL, tR, tC) {

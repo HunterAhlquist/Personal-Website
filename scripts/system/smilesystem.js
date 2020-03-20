@@ -77,7 +77,7 @@ function typeKey(e) {
 
 
 
-//pixel shaders
+//pixel/fragment shaders
 //generates colored pixel noise
 function randomColorsShader() {
     for (y=0;y<60;y++) {
@@ -127,6 +127,8 @@ let avgCycle = [];
 let newAvg;
 function update() {
     cycleA = new Date();
+    isInFullScreen = checkFullscreen();
+    fullscreneStyle();
     if (runtimeLength == Number.MAX_SAFE_INTEGER)
         runtimeLength = 0;
     else

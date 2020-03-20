@@ -7,24 +7,55 @@
     <title>Hunter's Smile64 - Remote Shell</title>
 </head>
 <body>
-    <h1>Smile64 Remote Shell</h1>
-    <canvas height="600px" width="600px" id="screen"></canvas>
+    
+    <div class="console">
+        <h1>Smile64 Remote Shell</h1>
+        <div class="screen">
+            <canvas height="600px" width="600px" id="screen"></canvas>
+            <div class="infoBtn"></div>
+        </div>
+        <h2>©Hunter Ahlquist, 2020</h2>
+    </div>
+    
+    <div class="info">
+        <div class="p1">
+            <h1>Interacting with the Console</h1>
+            <p>Enter 'help' for a list of commands.</p>
+            <p>Press the 'home' while in a 'microapp' to return to the console.</p>
+            <p>Double click the console for fullscreen.</p>
+            <h1>Technical Details</h1>
+            <p>The Smile64 uses a '64x64' resolution and refereshes every 50ms. Within that 50ms referesh, the computer
+                works in two routines, 'console,' and 'microapp.' Microapps was a way to develop for the Smile64, only a
+                few were made to showcase its features.
+            </p>
+            <h1>History</h1>
+            <p>Back in the 1980's where the 'personal computer wars' were reaching their peak,
+            a small company named 'Smile Systems, Inc.' realeased their first and only PC in 1983, the Smile64.
+            Rather than using DOS as its operating system, Smile Systems developed their own CLI.
+            Both the operating system and hardware was very limited, even for its time, this lead to the company's 
+            eventual downfall. The system was never even released to the public. After many controversies surrounding
+            the company's eccentric CEO Smile Systems, Inc closed their doors in the middle of Smile64's development. What is to 
+            the right is the final build made before all employees were laid off.</p>
+            
+        </div>
+        
+    </div>
+    <!--'Sideload'-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!--'Graphics'-->
     <script src="scripts/system/pixel.js"></script>
     <script src="scripts/extensions/sprite.js" ></script>
     <script src="scripts/extensions/UI.js" ></script>
     <!--'System'-->
+    <script src="scripts/main.js"></script>
     <script src="scripts/system/bin.js"></script>
     <script src="scripts/system/smilesystem.js"></script>
     <!--'Mircroapps'-->
     <script src="scripts/microapp/acid/acid.js"></script>
     <script src="scripts/microapp/test/test.js"></script>
     <script src="scripts/microapp/pong/pong.js"></script>
-    <p>enter 'help' for a list of commands</p>
-    <p>press the 'home' while in a <br>'microapp' to return to the console</p>
-    <p>F11 for fullscreen</p>
-    <p>©Hunter Ahlquist, 2020</p>
-
-    
+    <script src="scripts/microapp/FM/fm.js"></script>
+    <script src="scripts/microapp/SS/ss.js"></script>
 </body>
 </html>

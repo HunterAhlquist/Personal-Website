@@ -51,7 +51,7 @@ function parse(command){
             consoleHistory.push("!Artist;");
             break;
         case "about":
-            consoleHistory.push("SmileOS - v1.0");
+            consoleHistory.push("SmileOS - v0.85b");
             consoleHistory.push("RAM: 32kb, VRAM: 12kb");
             consoleHistory.push("CPU: H001 @ 0.875 MHz");
             consoleHistory.push("");
@@ -80,7 +80,12 @@ function parse(command){
 
 function gamesInfo(parse){
     switch (parse) {
-
+        case "00":
+            activeApp = new fm();
+            break;
+        case "01":
+            activeApp = new ss();
+            break;
     }
 }
 
