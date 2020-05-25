@@ -4,8 +4,15 @@ const infoBtn = document.querySelector(".infoBtn");
 const infoBtnQ = $(".infoBtn");
 const infoArea = document.querySelector(".info");
 const infoAreaQ = $(".info");
+var onMobile = false;
 infoAreaQ.hide();
-closeInfoPanel();
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    onMobile = true;
+    mobileMode();
+} else {
+    closeInfoPanel();
+}
+    
 
 infoBtn.addEventListener("click", toggleInfo);
 
@@ -27,6 +34,13 @@ function openInfoPanel() {
         duration: 'slow'
     });
     infoAreaQ.animate({width: '40%', color: 'white', borderColor: 'white'}, {
+        easing: 'swing',
+        duration: 'slow'
+    });
+}
+function mobileMode() {
+    infoAreaQ.show();
+    infoAreaQ.animate({color: 'white', borderColor: 'white'}, {
         easing: 'swing',
         duration: 'slow'
     });

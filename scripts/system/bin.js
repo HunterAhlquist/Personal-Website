@@ -50,6 +50,16 @@ function parse(command){
             consoleHistory.push("!Fiction writer;");
             consoleHistory.push("!Artist;");
             break;
+        case "edu":
+            consoleHistory.push("Green River");
+            consoleHistory.push("Community College");
+            consoleHistory.push("=-=-=-=-=-=-=-=-=-=-=-=-=-");
+            consoleHistory.push("!Associate in ");
+            consoleHistory.push("!Applied Science:");
+            consoleHistory.push("!Information Technology");
+            consoleHistory.push("!Systems and Security");
+            consoleHistory.push("!=-=-=-=-=-=-=-=-=-=-=-=-=-");
+            break;
         case "about":
             consoleHistory.push("SmileOS - v0.85b");
             consoleHistory.push("RAM: 32kb, VRAM: 12kb");
@@ -96,7 +106,7 @@ function exec(parse) {
         consoleHistory.push("#Use 'exec ls' to");
         consoleHistory.push("#see available microapps.");
     } else if (parse == "ls") {
-        consoleHistory.push("test, acid, pong");
+        consoleHistory.push("test, acid");
     } else {
         switch (parse) {
             case "test":
@@ -104,9 +114,6 @@ function exec(parse) {
                 break;
             case "acid":
                 activeApp = new acid();
-                break;
-            case "pong":
-                activeApp = new pong();
                 break;
         }
     }

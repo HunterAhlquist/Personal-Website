@@ -74,6 +74,45 @@ function typeKey(e) {
     }
     e.preventDefault(); //cancels input if all else fails...
 }
+function mobileSpecialKey(key) {
+    if (activeApp == null || activeApp == undefined) { //console
+        switch (key) {
+            case "Backspace":
+                consoleCurLine = consoleCurLine.substr(0, consoleCurLine.length - 1);
+            break;
+            case "Enter":
+                if (consoleCurLine == "")
+                    return;
+                consoleHistory.push("$" + consoleCurLine);
+                prevCommands.push(consoleCurLine);
+                prevCmdIndex = prevCommands.length;
+                parse(consoleCurLine);
+                consoleCurLine = "";
+            break;
+            case "ArrowUp": 
+                prevCmdIndex--;
+                if (prevCommands.length < 0)
+                    return;
+                if (prevCmdIndex < 0)
+                    return
+                
+                consoleCurLine = prevCommands[prevCmdIndex];
+            break;
+            case "ArrowDown":
+                if (prevCommands.length < 0)
+                    return;
+                prevCmdIndex = prevCommands.length;
+                consoleCurLine = "";
+            break;
+        }
+    } else { //microapp
+        if (key == "Home"){ //terminates microapp
+            activeApp.end();
+            activeApp = null;
+            return;
+        }
+    }
+}
 
 
 

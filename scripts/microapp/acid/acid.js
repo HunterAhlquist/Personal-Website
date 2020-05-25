@@ -1,13 +1,12 @@
-var app;
-function acid() {
-    //console.log("start");
 /*
 ©Hunter Ahlquist, 2020
 
 acid.js
 Microapp: displays a trippy colored animation using 100% maths.
 */
-    function update() {
+var app;
+function acid() {
+    function update() { //updates every frame and runs automatically through smilesystem.js
         coolBGShader();
         for (i=0;i<spriteStack.length;i++){
             drawSprite(spriteStack[i], 25, 25);
@@ -16,7 +15,7 @@ Microapp: displays a trippy colored animation using 100% maths.
         drawPixels();
     }
 
-    function coolBGShader() {
+    function coolBGShader() { //trippy looking animated shader
         for (y=0;y<60;y++) {
             for (x=0;x<60;x++){
                 let r = 0;
@@ -39,7 +38,7 @@ Microapp: displays a trippy colored animation using 100% maths.
          }
     }
 
-    function end() {
+    function end() { //fires when the microapp closes via the 'home' key on the keyboard.
         //clear sprite stack
         spriteStack = [];
         

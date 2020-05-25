@@ -1,3 +1,5 @@
+<!--©Hunter Ahlquist, 2020-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,11 +11,18 @@
 <body>
     
     <div class="console">
-        <h1>Smile64 Remote Shell</h1>
+        <h1>Smile64 Shell</h1>
         <div class="screen">
             <canvas height="600px" width="600px" id="screen"></canvas>
             <div class="infoBtn"></div>
         </div>
+        <div class="mobileButtons">
+            <input type="button" value="home" onclick="mobileSpecialKey('Home')">
+            <input type="button" value="^" onclick="mobileSpecialKey('ArrowUp')">
+            <input type="button" value="v" onclick="mobileSpecialKey('ArrowDown')">
+        </div>
+        <input type="text" class="mobileInput" value="open keyboard">
+
         <h2>©Hunter Ahlquist, 2020</h2>
     </div>
     
@@ -21,22 +30,36 @@
         <div class="p1">
             <h1>Interacting with the Console</h1>
             <p>Enter 'help' for a list of commands.</p>
-            <p>Press the 'home' while in a 'microapp' to return to the console.</p>
+            <p>Press the 'home' while in a 'microapp' (fullscreen apps) to return to the console.</p>
             <p>Double click the console for fullscreen.</p>
             <h1>Technical Details</h1>
             <p>The Smile64 uses a '64x64' resolution and refereshes every 50ms. Within that 50ms referesh, the computer
                 works in two routines, 'console,' and 'microapp.' Microapps was a way to develop for the Smile64, only a
                 few were made to showcase its features.
             </p>
-            <h1>History</h1>
-            <p>Back in the 1980's where the 'personal computer wars' were reaching their peak,
-            a small company named 'Smile Systems, Inc.' realeased their first and only PC in 1983, the Smile64.
-            Rather than using DOS as its operating system, Smile Systems developed their own CLI.
-            Both the operating system and hardware was very limited, even for its time, this lead to the company's 
-            eventual downfall. The system was never even released to the public. After many controversies surrounding
-            the company's eccentric CEO Smile Systems, Inc closed their doors in the middle of Smile64's development. What is to 
-            the right is the final build made before all employees were laid off.</p>
-            
+            <h1>About the Project</h1>
+            <p>This project was an experiment of limitations, for my 2020 Javascript class. This whole thing is inspired by <a href="https://www.lexaloffle.com/pico-8.php">Pico-8</a>, a 'fantasy' game console
+            built with limitations in mind, these limitations often lead to forcing one how to learn to optimize code, and memory. Not only that people have said that limitations enhance creativity.
+            I've always been fascinted with old outdated development kits, such as the Commedore 64, and the many vintage console development kits released to studios in the past.</p>
+            <h1>How it Works</h1>
+            <h2>Graphics</h2>
+            <p>The 64x64 screen is made up via pixel object, defined in the <a href="scripts/system/pixel.js">pixel.js</a> file, which also handles and defines many of the graphics related 
+            features such as fullscreen. The pixel object is basically just rgba color data, and those colors get placed into a 2D array named rasterizeData, every frame that data gets placed
+            into a canvas renderer that emulates a pixel by creating a square representing said pixel.</p>
+            <h2>Console/System</h2>
+            <p><a href="scripts/system/smilesystem.js">smilesystem.js</a> handles many functions of the console, and input, and it updates under two modes; 'microapp' mode and console mode.
+            This is so that the console doesnt take resources while a 'microapp' is running. Commands, are defined and handled in <a href="scripts/system/bin.js">bin.js</a></p>
+            <h2>microapps</h2>
+            <p>"microapps," not "Microapps." No caps are to show how small they can be. You can even write your own! In order to register one you make, you have to load it into this html,
+                and then register it in <a href="scripts/system/bin.js">bin.js</a> near the bottom in the exec function. Not the best way of handling stuff like that, but Windows still uses 
+                their registry so whatever. A microapp is loaded as an object and placed into the activeApp variable. All microapps initialize, update, and end. See the <a href="scripts/microapp/acid/acid.js">acid.js</a>
+            example here. The object definition acts as the initilization, this is also where you define your update, and other functions. update() will run automatically, along with any code inside after registering using:
+            <br> <a class="code">app = { update : function(){update();}, end : function(){end();}, mem : [], input : new Object() };</a> <br>
+            This makes it so smilesystem.js can actually call the appropriate update() and end() functions, it also defines a memory variable which gets destoryed when the app closes.
+        Additionally, and input variable is made, so that any keystrokes for the given frame can be passed to the microapp.</p>
+            <h1>Contact Info and Skills</h1>
+            <p>You can find my contact info through the console, hopefully spam bots dont search though javascript! HINT: enter, 'contact' or 'whoami' or 'edu'.</p>
+            <p><a href="https://github.com/HunterAhlquist/Personal-Website">Source Code</a></p>
         </div>
         
     </div>
