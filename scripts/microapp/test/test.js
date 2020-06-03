@@ -8,13 +8,15 @@ Tests the sprite library on top a neat background.
 var app;
 function test() {
     //console.log("start");
+    app = { update : function(){update();}, end : function(){end();}, mem : [], input : new Object() }; //register the update method and include an array for memory
     loadNewSprite("scripts/microapp/test/testsprite.png", getRgba(0, 211, 56));
+    app.mem.push(new gameobject());
+    app.mem[0].components.push(new spriterenderer(app.mem[0]));
+    app.mem[0].components[0].spriteStackIndex = 0;
 
     function update() {
         coolBGShader();
-        for (i=0;i<spriteStack.length;i++){
-            drawSprite(spriteStack[i], 25, 25);
-        }
+        app.mem[0].updateGameobject();
         drawPixels();
     }
 
@@ -47,7 +49,7 @@ function test() {
          }
     }
 
-    app = { update : function(){update();}, end : function(){end();}, mem : [], input : new Object() }; //register the update method and include an array for memory
+    
     return app;
 }
 
